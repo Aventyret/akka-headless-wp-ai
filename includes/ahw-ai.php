@@ -2,7 +2,7 @@
 use \Akka_headless_wp_utils as Utils;
 use \Akka_headless_wp_resolvers as Resolvers;
 
-define("OPEN_AI_SECRET", getenv("OPEN_AI_SECRET"));
+define("AKKA_OPEN_AI_SECRET", getenv("AKKA_OPEN_AI_SECRET"));
 
 class Akka_headless_wp_ai {
   public static function get_meta_description($data) {
@@ -33,7 +33,7 @@ class Akka_headless_wp_ai {
     }
     $response = wp_remote_post('https://api.openai.com/v1/chat/completions', [
       "headers" => [
-        "Authorization" => "Bearer " . OPEN_AI_SECRET,
+        "Authorization" => "Bearer " . AKKA_OPEN_AI_SECRET,
         "Content-Type" => "application/json"
       ],
       "body" => json_encode([
@@ -51,5 +51,9 @@ class Akka_headless_wp_ai {
     return [
       "content" => $choice["message"]["content"],
     ];
+  }
+
+  public static function post_types() {
+    return apply_filters("ahw_ai_post_types", ["post", "page"]);
   }
 }

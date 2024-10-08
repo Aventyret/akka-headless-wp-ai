@@ -3,13 +3,15 @@
     render: applyWithDispatch()(applyWithSelect()(AiMetaPanel))
   });
 
+  const enabledPostTypes = window.akkaAi?.postTypes || ['post', 'page'];
+
   function AiMetaPanel({ postType, postId, metaFields, setMetaFields }) {
     const [showSettings, setShowSettings] = window.React.useState(
       !!metaFields.akka_ai_prompt || !!metaFields.akka_ai_length
     );
     const [loading, setLoading] = window.React.useState(false);
 
-    if ('post' !== postType) return null;
+    if (!enabledPostTypes.includes(postType)) return null;
     const el = window.wp.element.createElement;
     return el(
       wp.editPost.PluginDocumentSettingPanel,
