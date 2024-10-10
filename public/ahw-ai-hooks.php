@@ -7,28 +7,43 @@ add_action( 'admin_enqueue_scripts', function() {
 });
 
 add_action('init', function() {
-  $metafields = [ 'akka_ai_description', 'akka_ai_length', 'akka_ai_prompt', 'akka_ai_use_description' ];
   foreach(Akka_headless_wp_ai::post_types() as $post_type) {
-    foreach( $metafields as $metafield ){
-        register_post_meta( $post_type, $metafield, array(
-            'show_in_rest' => true,
-            'type' => 'string',
-            'single' => true,
-            'sanitize_callback' => 'sanitize_text_field',
-            'auth_callback' => function() {
-                return current_user_can( 'edit_posts' );
-            }
-        ));
-    }
+    register_post_meta( $post_type, 'akka_ai', array(
+        "show_in_rest" => [
+            "schema" => [
+                "type" => "object",
+                "properties" => [
+                    "description" => [
+                        "type" => "string",
+                    ],
+                    "length" => [
+                        "type" => "string",
+                    ],
+                    "prompt" => [
+                        "type" => "string",
+                    ],
+                    "use_description" => [
+                        "type" => "boolean",
+                    ],
+                ],
+            ],
+        ],
+        'single' => true,
+        'auth_callback' => function() {
+            return current_user_can( 'edit_posts' );
+        }
+    ));
   }
 });
 
 add_filter( 'wpseo_metadesc', function($description) {
-  if (!in_array($post->post_type, Akka_headless_wp_ai::post_types())) {
+  if (!in_array(get_post_type(), Akka_headless_wp_ai::post_types())) {
     return $description;
   }
-  if(get_post_meta($post_id, "akka_ai_use_description", true)) {
-    return get_post_meta($post_id, "akka_ai_description", true);
+  if($akka_ai = get_post_meta(get_the_id(), "akka_ai", true)) {
+    if ($akka_ai["use_description"]) {
+      return $akka_ai["description"];
+    }
   }
   return $description;
 });
@@ -37,8 +52,10 @@ add_filter('ahw_seo_description', function($description, $post) {
   if (!in_array($post->post_type, Akka_headless_wp_ai::post_types())) {
     return $description;
   }
-  if(get_post_meta($post_id, "akka_ai_use_description", true)) {
-    return get_post_meta($post_id, "akka_ai_description", true);
+  if($akka_ai = get_post_meta($post->ID, "akka_ai", true)) {
+    if ($akka_ai["use_description"]) {
+      return $akka_ai["description"];
+    }
   }
   return $description;
 }, 10, 2);
