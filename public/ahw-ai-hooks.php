@@ -48,6 +48,18 @@ add_filter( 'wpseo_metadesc', function($description) {
   return $description;
 });
 
+add_filter( 'the_seo_framework_custom_field_description', function($description) {
+  if (!in_array(get_post_type(), Akka_headless_wp_ai::post_types())) {
+    return $description;
+  }
+  if($akka_ai = get_post_meta(get_the_id(), "akka_ai", true)) {
+    if ($akka_ai["use_description"]) {
+      return $akka_ai["description"];
+    }
+  }
+  return $description;
+});
+
 add_filter('ahw_seo_description', function($description, $post) {
   if (!in_array($post->post_type, Akka_headless_wp_ai::post_types())) {
     return $description;
