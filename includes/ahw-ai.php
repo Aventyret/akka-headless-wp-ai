@@ -1,13 +1,12 @@
 <?php
-use \Akka_headless_wp_utils as Utils;
-use \Akka_headless_wp_resolvers as Resolvers;
-
 define("OPEN_AI_SECRET", getenv("AKKA_OPEN_AI_SECRET"));
 
 class Akka_headless_wp_ai {
   public static function get_meta_description($data) {
-    $post_id = Utils::getRouteParam($data, 'post_id');
-    $post = get_post($post_id);
+    if (!isset($data['post_id']) || !$data['post_id']) {
+      return;
+    }
+    $post = get_post($data['post_id']);
     if (!$post) {
       return;
     }
