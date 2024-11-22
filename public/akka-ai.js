@@ -82,15 +82,24 @@
           'Generera beskrivning'
         )
       ),
-      el(
-        wp.components.PanelRow,
-        {},
-        el(wp.components.CheckboxControl, {
-          label: 'Använd beskrivningen',
-          checked: !!metaFields.akka_ai?.use_description,
-          onChange: (checked) => setAkkaAiField('use_description', checked)
-        })
-      )
+      metaFields.akka_ai?.length
+        ? el(
+            wp.components.PanelRow,
+            {},
+            el(wp.components.CheckboxControl, {
+              label: 'Använd beskrivningen',
+              checked: !!metaFields.akka_ai?.use_description,
+              onChange: (checked) => setAkkaAiField('use_description', checked)
+            })
+          )
+        : '',
+      metaFields.akka_ai?.length && metaFields.akka_ai?.use_description
+        ? el(
+            wp.components.PanelRow,
+            {},
+            el('p', {}, 'Den här beskrivningen kommer att skriva över inläggets andra inställningar')
+          )
+        : ''
     );
   }
 
