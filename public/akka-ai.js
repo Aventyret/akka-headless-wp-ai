@@ -82,7 +82,7 @@
           'Generera beskrivning'
         )
       ),
-      metaFields.akka_ai?.length
+      metaFields.akka_ai?.description?.length
         ? el(
             wp.components.PanelRow,
             {},
@@ -93,7 +93,7 @@
             })
           )
         : '',
-      metaFields.akka_ai?.length && metaFields.akka_ai?.use_description
+      metaFields.akka_ai?.description?.length && metaFields.akka_ai?.use_description
         ? el(
             wp.components.PanelRow,
             {},
