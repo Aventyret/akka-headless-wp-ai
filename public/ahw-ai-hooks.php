@@ -41,7 +41,7 @@ add_filter( 'wpseo_metadesc', function($description) {
     return $description;
   }
   if($akka_ai = get_post_meta(get_the_id(), "akka_ai", true)) {
-    if ($akka_ai["use_description"]) {
+    if ($akka_ai && isset($akka_ai["use_description"]) && $akka_ai["use_description"] && isset($akka_ai["description"])) {
       return $akka_ai["description"];
     }
   }
@@ -53,7 +53,7 @@ add_filter( 'the_seo_framework_custom_field_description', function($description)
     return $description;
   }
   if($akka_ai = get_post_meta(get_the_id(), "akka_ai", true)) {
-    if ($akka_ai["use_description"]) {
+    if ($akka_ai && isset($akka_ai["use_description"]) && $akka_ai["use_description"] && isset($akka_ai["description"])) {
       return $akka_ai["description"];
     }
   }
@@ -65,7 +65,7 @@ add_filter('ahw_seo_description', function($description, $post) {
     return $description;
   }
   if($akka_ai = get_post_meta($post->ID, "akka_ai", true)) {
-    if ($akka_ai["use_description"]) {
+    if ($akka_ai && isset($akka_ai["use_description"]) && $akka_ai["use_description"] && isset($akka_ai["description"])) {
       return $akka_ai["description"];
     }
   }
