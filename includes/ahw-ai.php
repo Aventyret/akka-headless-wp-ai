@@ -1,5 +1,7 @@
 <?php
-define("OPEN_AI_SECRET", getenv("AKKA_OPEN_AI_SECRET"));
+if (!defined("OPEN_AI_SECRET")) {
+  define("OPEN_AI_SECRET", getenv("AKKA_OPEN_AI_SECRET"));
+}
 
 class Akka_headless_wp_ai {
   public static function get_meta_description($data) {
@@ -52,7 +54,16 @@ class Akka_headless_wp_ai {
     ];
   }
 
+  /**
+   * Post types the AI meta panel and the SEO description filters apply to.
+   *
+   * Filterable through `akka_ai_post_types`. The legacy `ahw_ai_post_types`
+   * filter is still applied first, for themes written against core 1.x.
+   *
+   * @return string[]
+   */
   public static function post_types() {
-    return apply_filters("ahw_ai_post_types", ["post", "page"]);
+    $post_types = apply_filters("ahw_ai_post_types", ["post", "page"]);
+    return apply_filters("akka_ai_post_types", $post_types);
   }
 }

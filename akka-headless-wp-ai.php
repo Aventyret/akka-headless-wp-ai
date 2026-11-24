@@ -5,7 +5,7 @@ Plugin URI: https://github.com/aventyret/akka-wp/blob/main/plugins/akka-headless
 Description: AI plugin for Akka
 Author: Mediakooperativet, Äventyret
 Author URI: https://aventyret.com
-Version: 0.0.1
+Version: 1.4.0
 */
 
 if (basename($_SERVER['PHP_SELF']) == basename(__FILE__)){
@@ -20,7 +20,7 @@ if (defined('AKKA_HEADLESS_WP_AI'))
 define('AKKA_HEADLESS_WP_AI',  __FILE__ );
 define('AKKA_HEADLESS_WP_AI_DIR', plugin_dir_path( __FILE__ ));
 define('AKKA_HEADLESS_WP_AI_URI', plugin_dir_url( __FILE__ ));
-define('AKKA_HEADLESS_WP_AI_VER', "0.0.1");
+define('AKKA_HEADLESS_WP_AI_VER', "1.4.0");
 
 require_once(AKKA_HEADLESS_WP_AI_DIR . 'includes/ahw-ai.php');
 require_once(AKKA_HEADLESS_WP_AI_DIR . 'public/ahw-ai-api-endpoints.php');

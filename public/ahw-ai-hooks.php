@@ -1,7 +1,10 @@
 <?php
 add_action( 'admin_enqueue_scripts', function() {
   wp_enqueue_script( 'akka-ai', AKKA_HEADLESS_WP_AI_URI . 'public/akka-ai.js', NULL, AKKA_HEADLESS_WP_AI_VER, true );
-  wp_localize_script('akka-ai', 'akkaAi', ["postTypes" => Akka_headless_wp_ai::post_types()]);
+  wp_localize_script('akka-ai', 'akkaAi', [
+    "postTypes" => Akka_headless_wp_ai::post_types(),
+    "apiBase" => defined('AKKA_API_BASE') ? AKKA_API_BASE : 'akka/v2',
+  ]);
   wp_enqueue_style( 'akka-ai', AKKA_HEADLESS_WP_AI_URI . 'public/akka-ai.css', NULL, AKKA_HEADLESS_WP_AI_VER, 'all' );
 
 });
@@ -60,7 +63,7 @@ add_filter( 'the_seo_framework_custom_field_description', function($description)
   return $description;
 });
 
-add_filter('ahw_seo_description', function($description, $post) {
+add_filter('akka_seo_description', function($description, $post) {
   if (!in_array($post->post_type, Akka_headless_wp_ai::post_types())) {
     return $description;
   }

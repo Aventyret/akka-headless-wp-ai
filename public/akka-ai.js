@@ -4,17 +4,15 @@
   });
 
   const enabledPostTypes = window.akkaAi?.postTypes || ['post', 'page'];
+  const apiBase = window.akkaAi?.apiBase || 'akka/v2';
 
   function AiMetaPanel({ postType, postId, metaFields, setMetaFields }) {
-    console.log({ metaFields });
-
     const [showSettings, setShowSettings] = window.React.useState(
       !!metaFields.akka_ai?.prompt || !!metaFields.akka_ai?.length
     );
     const [loading, setLoading] = window.React.useState(false);
 
     function setAkkaAiField(field, value) {
-      console.log({ field, value });
       setMetaFields({ akka_ai: { ...(metaFields.akka_ai || {}), [field]: value } });
     }
 
@@ -125,7 +123,7 @@
 
   function generateDescription(postId, metaFields, setAkkaAiField, setLoading) {
     setLoading(true);
-    let endpoint = `headless/v1/ai/meda_description/${postId}`;
+    let endpoint = `${apiBase}/ai/meda_description/${postId}`;
     if (metaFields.akka_ai?.length) {
       endpoint += `?length=${parseInt(metaFields.akka_ai?.length, 10)}`;
     }
